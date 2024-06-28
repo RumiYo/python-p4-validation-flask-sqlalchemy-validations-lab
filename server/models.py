@@ -49,6 +49,9 @@ class Post(db.Model):
     def validate_title(self, key, title):
         if len(title) == 0:
             raise ValueError('Title must be non empty string') 
+        phrases = ["Won't Believe", "Secret", "Top", "Guess"]
+        if not any(phrase in title for phrase in phrases):
+            raise ValueError('Title must contaion one of the phrases')
         return title
 
     @validates('content')
@@ -59,7 +62,7 @@ class Post(db.Model):
 
     @validates('category')
     def validate_category(self, key, category):
-        categories = ["Won't Believe", "Secret", "Top", "Guess", "Non-Fiction"]
+        categories = ['Fiction', 'Non-Fiction']
         if category not in categories:
             raise ValueError('Category does not exist')
         return category
